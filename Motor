@@ -1,0 +1,42 @@
+int RWheel = M1; //Declare Pin M1 is for Right Wheel
+int LWheel = M2; //Declare Pin M2 is for Left Wheel
+int ArmServo = M3; //Declare Pin M3 is for Arm Servos
+int ClawServos = M4; //Declare Pin M4 is for Claw Servos
+
+#define RWheel M1
+
+void setup() {
+
+  pinMode(RWheel, OUTPUT);  // put your setup code here, to run once:
+  pinMode(LWheel, OUTPUT);  // put your setup code here, to run once:
+  pinMode(ArmServo, OUTPUT);  // put your setup code here, to run once:
+  pinMode(ClawServos, OUTPUT);  // put your setup code here, to run once:
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
+
+
+#define M1 1  //Defining M1 for Right Wheel
+#define M2 2  //Defining M2 for Left Wheel
+#define M3 3  //Defining M3 for ArmServos
+#define M4 4  //Defining M4 for ClawServos
+
+void setup() {
+
+  pinMode(M1, OUTPUT);  // put your setup code here, to run once:
+  pinMode(M2, OUTPUT);
+  pinMode(M3, OUTPUT);
+  pinMode(M4, OUTPUT);
+
+}
+
+void loop() {
+
+    digitalWrite(M1, HIGH); // Going Forward
+    digitalWrite(M2, HIGH);
+
+}
