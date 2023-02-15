@@ -27,10 +27,11 @@ void loop() {
 
 void setup() {
 
-  pinMode(M1, OUTPUT);  // put your setup code here, to run once:
-  pinMode(M2, OUTPUT);
-  pinMode(M3, OUTPUT);
-  pinMode(M4, OUTPUT);
+  pinMode(M1, OUTPUT);  //Declare M1(Right Wheel) is an output
+  pinMode(M2, OUTPUT);  //Declare M2(Left Wheel) is an output
+  pinMode(M3, OUTPUT);  //Declare M3(ArmServos) is an output
+  pinMode(M4, OUTPUT);  //Declare M4(ClawServos) is an output
+
 
 }
 
@@ -38,5 +39,29 @@ void loop() {
 
     digitalWrite(M1, HIGH); // Going Forward
     digitalWrite(M2, HIGH);
+
+}
+
+#include <AFMotor.h>
+#include <Servo.h>
+
+AF_DCMotor RightWheel(1); 
+AF_DCMotor LeftWheel(2);
+AF_DCMotor ArmServo(3);
+AF_DCMotor ClawServo(4);
+
+void setup() {
+
+  RightWheel.setSpeed(200);
+  RightWheel.run(RELEASE);
+  LeftWheel.setSpeed(200);
+  LeftWheel.run(RELEASE);
+
+}
+
+void loop() {
+
+  RightWheel.run(FORWARD);
+  LeftWheel.run(FORWARD);
 
 }
