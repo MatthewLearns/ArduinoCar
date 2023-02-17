@@ -32,22 +32,25 @@ void loop() {
   RightWheel.run(FORWARD);  //RightWheel starts going forward
   LeftWheel.run(FORWARD);   //LefttWheel starts going forward
 
-  if (ProxiSensor == 0) {
+  if (ProxiSensor == 0) {  //When the ball is detected in reaching distance
     RightWheel.run(RELEASE);  //RightWheel stops
     LeftWheel.run(RELEASE);   //LefttWheel stops
 
     delay(500);
 
-    ArmServo.write(30);
+    ArmServo.write(30); //Arm increases 30deg
     delay(500);
 
-    ClawServo.write(60);
+    ClawServo.write(60); //Claw will close on 60deg
+    delay(500);
+
+    ArmServo.write(60); //Arm increases a further 30deg
   }
 
   RightWheel.run(BACKWARD);  //RightWheel starts reversing
   LeftWheel.run(BACKWARD);   //LefttWheel starts reversing
 
-  if (IRSLeft == 0) {
+  if (IRSLeft == 0) {  //To turn on the spot
 
     RightWheel.run(BACKWARD);  //RightWheel starts reversing
     LeftWheel.run(RELEASE);    //LefttWheel stops
@@ -62,9 +65,9 @@ void loop() {
 
     delay(500);
 
-    ArmServo.write(30);
+    ArmServo.write(-30); //Arm decreses 30deg
     delay(500);
 
-    ClawServo.write(-60);
+    ClawServo.write(-60); //Arm will open to release tennis ball
   }
 }
