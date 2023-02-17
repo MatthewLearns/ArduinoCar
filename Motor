@@ -1,67 +1,70 @@
-int RWheel = M1; //Declare Pin M1 is for Right Wheel
-int LWheel = M2; //Declare Pin M2 is for Left Wheel
-int ArmServo = M3; //Declare Pin M3 is for Arm Servos
-int ClawServos = M4; //Declare Pin M4 is for Claw Servos
-
-#define RWheel M1
-
-void setup() {
-
-  pinMode(RWheel, OUTPUT);  // put your setup code here, to run once:
-  pinMode(LWheel, OUTPUT);  // put your setup code here, to run once:
-  pinMode(ArmServo, OUTPUT);  // put your setup code here, to run once:
-  pinMode(ClawServos, OUTPUT);  // put your setup code here, to run once:
-
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-
-}
+#include <AFMotor.h>  //including AFMotor files into Library
+#include <Servo.h>    //including Servo files into Library
 
 
-#define M1 1  //Defining M1 for Right Wheel
-#define M2 2  //Defining M2 for Left Wheel
-#define M3 3  //Defining M3 for ArmServos
-#define M4 4  //Defining M4 for ClawServos
+AF_DCMotor RightWheel(1);  //Declaring M1 to RightWheel
+AF_DCMotor LeftWheel(2);   //Declaring M2 to LeftWheel
+
+Servo ClawServo;  //Declaring Servo2(9) as ClawServo
+Servo ArmServo;   //Declaring Servo1(10) as ArmServo
 
 void setup() {
 
-  pinMode(M1, OUTPUT);  //Declare M1(Right Wheel) is an output
-  pinMode(M2, OUTPUT);  //Declare M2(Left Wheel) is an output
-  pinMode(M3, OUTPUT);  //Declare M3(ArmServos) is an output
-  pinMode(M4, OUTPUT);  //Declare M4(ClawServos) is an output
+  RightWheel.setSpeed(200);  //Set init1al Speed of RightWheel
+  RightWheel.run(RELEASE);   //Set initial stop for RightWheel
+  LeftWheel.setSpeed(200);   //Set init1al Speed of LeftWheel
+  LeftWheel.run(RELEASE);    //Set initial stop for LeftWheel
 
+  ClawServo.attach(9);  //Attaching ClawServo to Pin9 (Servo2)
+  ArmServo.attach(10);  //Attaching ArmServo to Pin10 (Servo1)
 
+  pinMode(6, INPUT);  //Declare Pin 6 for IR Sensor Left
+  pinMode(7, INPUT);  //Declare Pin 7 for IR Sensor Right
+  pinMode(8, INPUT);  //Declare Pin 8 for ProxiSensor
 }
 
 void loop() {
 
-    digitalWrite(M1, HIGH); // Going Forward
-    digitalWrite(M2, HIGH);
+  int IRSLeft = digitalRead(6);
+  int IRSRight = digitalRead(7);
+  int ProxiSensor = digitalRead(8);
 
-}
+  RightWheel.run(FORWARD);  //RightWheel starts going forward
+  LeftWheel.run(FORWARD);   //LefttWheel starts going forward
 
-#include <AFMotor.h>
-#include <Servo.h>
+  if (ProxiSensor == 0) {
+    RightWheel.run(RELEASE);  //RightWheel stops
+    LeftWheel.run(RELEASE);   //LefttWheel stops
 
-AF_DCMotor RightWheel(1); 
-AF_DCMotor LeftWheel(2);
-AF_DCMotor ArmServo(3);
-AF_DCMotor ClawServo(4);
+    delay(500);
 
-void setup() {
+    ArmServo.write(30);
+    delay(500);
 
-  RightWheel.setSpeed(200);
-  RightWheel.run(RELEASE);
-  LeftWheel.setSpeed(200);
-  LeftWheel.run(RELEASE);
+    ClawServo.write(60);
+  }
 
-}
+  RightWheel.run(BACKWARD);  //RightWheel starts reversing
+  LeftWheel.run(BACKWARD);   //LefttWheel starts reversing
 
-void loop() {
+  if (IRSLeft == 0) {
 
-  RightWheel.run(FORWARD);
-  LeftWheel.run(FORWARD);
+    RightWheel.run(BACKWARD);  //RightWheel starts reversing
+    LeftWheel.run(RELEASE);    //LefttWheel stops
+  }
 
+  RightWheel.run(FORWARD);  //RightWheel starts moving forward
+  LeftWheel.run(FORWARD);   //LefttWheel starts moving forward
+
+  if (ProxiSensor == 0) {
+    RightWheel.run(RELEASE);  //RightWheel stops
+    LeftWheel.run(RELEASE);   //LefttWheel stops
+
+    delay(500);
+
+    ArmServo.write(30);
+    delay(500);
+
+    ClawServo.write(-60);
+  }
 }
