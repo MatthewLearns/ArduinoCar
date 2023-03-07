@@ -14,7 +14,7 @@ AF_DCMotor RightWheel(2);   //Declaring M2 to LeftWheel
 SharpIR SharpIR(ProxiSensor, 430);
 
 Servo ArmServo;  //Declaring Servo2(9) as ClawServo
-int Apos1 = 90;  // Declare ArmServo Initial Postition 1 as 90 degrees, will start at an upright position
+int Apos1 = 0;  // Declare ArmServo Initial Postition 1 as 90 degrees, will start at an upright position
 Servo ClawServo;   //Declaring Servo1(10) as ArmServo
 int Cpos1 = 45;    // Declare ClawServo Initial Postition 1 as 80 degrees
 
@@ -27,9 +27,17 @@ void setup() {
   LeftWheel.run(RELEASE);    //Set initial stop for LeftWheel
 
   ArmServo.attach(9);  //Attaching ClawServo to Pin9 (Servo2)
-  ArmServo.write(Apos1);   //Move ArmServo to move to Postition 1
+  for(Apos1=0;Apos1<=90;pos+=1) {
+    ArmServo.write(Apos1);   //Move ArmServo to move to Postition 1
+    delay(5);
+  }
+  
   ClawServo.attach(10);  //Attaching ArmServo to Pin10 (Servo1)
-  ClawServo.write(Cpos1);   //Move ClawServo to move to Postition 1
+  for(Cpos1=0;Cpos1<=45;Cpos1+=1) {
+    ClawServo.write(Cpos1);   //Move ClawServo to move to Postition 1
+    delay(5);
+  }
+  
     
   pinMode(A3,INPUT);  //Declare Pin A3 for IR Sensor Left
   pinMode(A4,INPUT);  //Declare Pin A4 for IR Sensor Right
