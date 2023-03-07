@@ -16,7 +16,7 @@ SharpIR SharpIR(ProxiSensor, 430);
 Servo ArmServo;  //Declaring Servo2(9) as ClawServo
 int Apos1 = 0;  // Declare ArmServo Initial Postition 1 as 90 degrees, will start at an upright position
 Servo ClawServo;   //Declaring Servo1(10) as ArmServo
-int Cpos1 = 45;    // Declare ClawServo Initial Postition 1 as 80 degrees
+int Cpos1 = 0;    // Declare ClawServo Initial Postition 1 as 80 degrees
 
 
 void setup() {
