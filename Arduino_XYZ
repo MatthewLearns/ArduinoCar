@@ -27,8 +27,10 @@ void setup() {
   LeftWheel.run(RELEASE);    //Set initial stop for LeftWheel
 
   ArmServo.attach(9);  //Attaching ClawServo to Pin9 (Servo2)
+  ArmServo.write(Apos1);   //Move ArmServo to move to Postition 1
   ClawServo.attach(10);  //Attaching ArmServo to Pin10 (Servo1)
-
+  ClawServo.write(Cpos1);   //Move ClawServo to move to Postition 1
+    
   pinMode(A3,INPUT);  //Declare Pin A3 for IR Sensor Left
   pinMode(A4,INPUT);  //Declare Pin A4 for IR Sensor Right
   pinMode(A5,INPUT);  //Declare Pin A5 for ProxiSensor
@@ -38,11 +40,7 @@ void setup() {
 
 void loop() {
 
-  int Apos1 = 90;  // Declare ArmServo Initial Postition 1 as 90 degrees, will start at an upright position
-  ArmServo.write(Apos1);   //Move ArmServo to move to Postition 1
-  int Cpos1 = 80;    // Declare ClawServo Initial Postition 1 as 80 degrees
-  ClawServo.write(Cpos1);   //Move ClawServo to move to Postition 1
-
+  
   Serial.println(digitalRead(IRSLeft));
   Serial.println(digitalRead(IRSRight));
   Serial.println(digitalRead(ProxiSensor));
