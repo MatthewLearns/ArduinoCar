@@ -1,0 +1,138 @@
+#include <AFMotor.h>  //including AFMotor files into Library
+#include <Servo.h>    //including Servo files into Library
+#include <Wire.h>    //including Servo files into Library
+#include <SharpIR.h>    //including Servo files into Library
+
+AF_DCMotor RightWheel(1);  //Declaring M1 to RightWheel
+AF_DCMotor LeftWheel(2);   //Declaring M2 to LeftWheel
+
+#define IRSLeft A3
+#define IRSRight A4
+#define ProxiSensor A5
+#define model 430
+
+SharpIR SharpIR(ProxiSensor, 430);
+
+Servo ArmServo;  //Declaring Servo2(9) as ClawServo
+Servo ClawServo;   //Declaring Servo1(10) as ArmServo
+
+void setup() {
+
+  RightWheel.setSpeed(200);  //Set init1al Speed of RightWheel
+  RightWheel.run(RELEASE);   //Set initial stop for RightWheel
+  LeftWheel.setSpeed(200);   //Set init1al Speed of LeftWheel
+  LeftWheel.run(RELEASE);    //Set initial stop for LeftWheel
+
+  ArmServo.attach(9);  //Attaching ClawServo to Pin9 (Servo2)
+  ClawServo.attach(10);  //Attaching ArmServo to Pin10 (Servo1)
+
+  pinMode(A3,INPUT);  //Declare Pin A3 for IR Sensor Left
+  pinMode(A4,INPUT);  //Declare Pin A4 for IR Sensor Right
+  pinMode(A5,INPUT);  //Declare Pin A5 for ProxiSensor
+
+  Serial.begin(9600);
+}
+
+void loop() {
+
+  ArmServo.write(30);  //Attaching ClawServo to Pin9 (Servo2)
+  ClawServo.write(50);  //Attaching ArmServo to Pin10 (Servo1)
+
+  Serial.println(digitalRead(IRSLeft));
+  Serial.println(digitalRead(IRSRight));
+  Serial.println(digitalRead(ProxiSensor));
+
+  int Apos1 = 120;  // Declare ArmServo Initial Postition 1 as 120 degrees, will start at an upright position
+  ArmServo.write(Apos1);   //Move ArmServo to move to Position 1
+  int Cpos1 = 140;    // Declare ClawServo Initial Postition 1 as 140 degrees, claw opened
+  ClawServo.write(Cpos1);   //Move ClawServo to move to Position 1
+
+  //line detected by both
+  if(digitalRead(IRSLeft)==0 && digitalRead(IRSRight)==0){
+    //Forward
+    RightWheel.run(FORWARD);
+    RightWheel.setSpeed(150);
+    LeftWheel.run(FORWARD);
+    LeftWheel.setSpeed(150);
+  
+  }
+  //line detected by left sensor
+  else if(digitalRead(IRSLeft)==0 && !digitalRead(IRSRight)==0){
+    //turn left
+    RightWheel.run(BACKWARD);
+    RightWheel.setSpeed(200);
+    LeftWheel.run(FORWARD);
+    LeftWheel.setSpeed(200);
+    
+  }
+  //line detected by right sensor
+  else if(!digitalRead(IRSLeft)==0 && digitalRead(IRSRight)==0){
+    //turn right
+    RightWheel.run(FORWARD);
+    RightWheel.setSpeed(200);
+    LeftWheel.run(BACKWARD);
+    LeftWheel.setSpeed(200);
+   
+  }
+  //line detected by none
+  else if(!digitalRead(IRSLeft)==0 && !digitalRead(IRSRight)==0){
+    //stop
+    RightWheel.run(RELEASE);
+    RightWheel.setSpeed(0);
+    LeftWheel.run(RELEASE);
+    LeftWheel.setSpeed(0);
+   
+  }
+
+  if (digitalRead(ProxiSensor)==1)
+
+  int Apos2 = 180;  // Declare ArmServo Postition 2 as 180 degrees
+  ArmServo.write(Apos2);   //Move ArmServo to move to Position 2
+  int Cpos2 = 150;    // Declare ClawServo Postition 2 as 150 degrees
+  ClawServo.write(Cpos2);   //Move ClawServo to move to Postition 2 to pick up ball
+  
+  delay(1000);
+
+  int Apos3 = 110;  // Declare ArmServo Postition 3 as 110 degrees
+  ArmServo.write(Apos3);   //Move ArmServo to move to Postition 3, make arm move back upright
+
+  //line detected by both
+  if(digitalRead(IRSLeft)==0 && digitalRead(IRSRight)==0){
+    //Forward
+    RightWheel.run(FORWARD);
+    RightWheel.setSpeed(150);
+    LeftWheel.run(FORWARD);
+    LeftWheel.setSpeed(150);
+  
+  }
+  //line detected by left sensor
+  else if(digitalRead(IRSLeft)==0 && !digitalRead(IRSRight)==0){
+    //turn left
+    RightWheel.run(BACKWARD);
+    RightWheel.setSpeed(200);
+    LeftWheel.run(FORWARD);
+    LeftWheel.setSpeed(200);
+    
+  }
+  //line detected by right sensor
+  else if(!digitalRead(IRSLeft)==0 && digitalRead(IRSRight)==0){
+    //turn right
+    RightWheel.run(FORWARD);
+    RightWheel.setSpeed(200);
+    LeftWheel.run(BACKWARD);
+    LeftWheel.setSpeed(200);
+   
+  }
+  //line detected by none
+  else if(!digitalRead(IRSLeft)==0 && !digitalRead(IRSRight)==0){
+    //stop
+    RightWheel.run(RELEASE);
+    RightWheel.setSpeed(0);
+    LeftWheel.run(RELEASE);
+    LeftWheel.setSpeed(0);
+   
+  }
+
+  
+
+}
