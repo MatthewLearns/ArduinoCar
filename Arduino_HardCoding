@@ -1,0 +1,105 @@
+#include <AFMotor.h>  //including AFMotor files into Library
+#include <Servo.h>    //including Servo files into Library
+
+AF_DCMotor LeftWheel(1);  //Declaring M1 to RightWheel
+AF_DCMotor RightWheel(2);   //Declaring M2 to LeftWheel
+
+
+Servo ArmServo;  //Declaring Servo Variable as ArmServo
+int Apos1 = 100;  //Creating Apos1 integer for ArmServo to start at 100 deg
+Servo ClawServo;   //Declaring Servo Variable as ClawServo
+int Cpos1 = 140;    // Creating Cpos1 integer for ClawServo to start at 140 deg
+
+
+void setup() {
+
+  RightWheel.setSpeed(200);  //Set initial Speed of RightWheel
+  RightWheel.run(RELEASE);   //Set initial stop for RightWheel
+  LeftWheel.setSpeed(200);   //Set init1al Speed of LeftWheel
+  LeftWheel.run(RELEASE);    //Set initial stop for LeftWheel
+
+  ArmServo.attach(9);  //Attaching ClawServo to Pin9 (Servo2)
+  ClawServo.attach(10);  //Attaching ArmServo to Pin10 (Servo1)
+
+
+  Serial.begin(9600);
+}
+
+void loop() {
+
+  delay(1000);
+
+  int Apos1 = 120;  // Declare ArmServo Initial Postition 1 as 120 degrees, will start at an upright position
+  ArmServo.write(Apos1);   //Move ArmServo to move to Position 1
+  int Cpos1 = 140;    // Declare ClawServo Initial Postition 1 as 140 degrees, claw opened
+  ClawServo.write(Cpos1);   //Move ClawServo to move to Position 1
+
+  RightWheel.run(FORWARD);
+  RightWheel.setSpeed(255); //Wheels will move forward at its fastest speed
+  LeftWheel.run(FORWARD);
+  LeftWheel.setSpeed(255); //Wheels will move forward at its fastest speed
+
+  delay(7200);
+
+  RightWheel.run(RELEASE); //Stop
+  LeftWheel.run(RELEASE); //Stop
+
+  int Apos2 = 180;  // Declare ArmServo Postition 2 as 180 degrees
+  ArmServo.write(Apos2);   //Move ArmServo to move to Position 2
+  int Cpos2 = 150;    // Declare ClawServo Postition 2 as 150 degrees
+  ClawServo.write(Cpos2);   //Move ClawServo to move to Postition 2 to pick up ball
+
+  delay(1000);
+
+  int Cpos3 = 115;    // Declare ClawServo Postition 3 as 115 degrees
+  ClawServo.write(Cpos3);   //Move ClawServo to move to Position 3 for claw to close to pick up ball
+
+  delay(1000);
+
+  RightWheel.run(BACKWARD); //Reversing to get back to the junction
+  RightWheel.setSpeed(255); 
+  LeftWheel.run(BACKWARD); //Reversing to get back to the junction
+  LeftWheel.setSpeed(255);
+
+  int Apos3 = 110;  // Declare ArmServo Postition 3 as 110 degrees
+  ArmServo.write(Apos3);   //Move ArmServo to move to Postition 3, make arm move back upright
+
+  delay (4000);
+
+  RightWheel.run(RELEASE);
+  LeftWheel.run(RELEASE);
+
+  delay (2000);
+
+  RightWheel.run(FORWARD); //For Car to turn to move towards point 2
+  RightWheel.setSpeed(255);
+  LeftWheel.run(RELEASE);
+  
+  delay (2600);
+
+  RightWheel.run(FORWARD);
+  RightWheel.setSpeed(255);
+  LeftWheel.run(FORWARD);
+  LeftWheel.setSpeed(255);
+
+  delay (4100);
+
+  RightWheel.run(RELEASE);
+  LeftWheel.run(RELEASE);
+
+  delay (1000);
+
+  int Apos4 = 180;  // Declare ArmServo Postition 4 as 0 degrees
+  ArmServo.write(Apos4);   //Move ArmServo to move to Postition 4
+
+  delay (1000);
+
+  int Cpos4 = 170;    // Declare ClawServo Postition 4 as 100 degrees
+  ClawServo.write(Cpos4);   //Move ClawServo to move to Postition 4 to release ball
+
+  RightWheel.run(RELEASE);
+  LeftWheel.run(RELEASE);
+
+  delay(30000);
+
+}
